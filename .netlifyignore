@@ -1,0 +1,9 @@
+.git
+.next
+.netlify
+.tmp
+node_modules
+out
+*.tsbuildinfo
+.env.local
+.env*.local
