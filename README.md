@@ -1,21 +1,60 @@
-# Next.js template
+# OpenTenders
 
-This is a Next.js template with shadcn/ui.
+Open-source tender tracking and management for bid teams.
 
-## Adding components
+Replace spreadsheet-led tender tracking with one workspace for bids, deadlines, owners, and risk. Built for UK SMEs that bid on public and private sector contracts.
 
-To add components to your app, run the following command:
+## Features
+
+- **Tender dashboard** — see all open deadlines, owned bids, and flagged risks at a glance
+- **Kanban board** — drag bids through stages (identify → prepare → submit → won/lost)
+- **Calendar view** — visual deadline management across the team
+- **Insights** — win/loss tracking, pipeline value, and team performance
+- **Multi-user orgs** — invite colleagues, assign owners, share a tender workspace
+- **Sites & Staffing Map** — plot service locations and standard headcounts to inform bid pricing
+- **Telegram reminders** — daily deadline push notifications (optional)
+
+## Stack
+
+- **Frontend:** Next.js (App Router), React, TypeScript, Tailwind CSS, shadcn/ui
+- **Backend:** Supabase (Postgres, Auth, Edge Functions)
+- **Auth:** Supabase Auth (magic link, OAuth)
+- **Maps:** Leaflet + OpenStreetMap (free, no API key)
+- **Geocoding:** Postcodes.io (UK postcodes, free)
+
+## Getting Started
 
 ```bash
-npx shadcn@latest add button
+# Clone
+git clone https://github.com/your-org/open-tenders
+cd open-tenders
+
+# Install
+npm install
+
+# Copy env template
+cp .env.example .env.local
+# Edit .env.local with your Supabase project details
+
+# Run migrations
+npx supabase start
+
+# Dev server
+npm run dev
 ```
 
-This will place the ui components in the `components` directory.
+## Deployment
 
-## Using components
+OpenTenders is designed to be self-hosted. Deploy via:
 
-To use the components in your app, import them as follows:
+- **Docker** — `docker compose up -d` (see `Dockerfile`)
+- **Netlify** — `npx netlify deploy`
+- **Vercel** — connect your Supabase project and deploy
 
-```tsx
-import { Button } from "@/components/ui/button";
-```
+## Origin
+
+OpenTenders is an open-source fork of [TenderFlow](https://tenderflow.com), stripped of billing, marketing, and rebranded as a community portfolio project. All core functionality — multi-user orgs, tender CRUD, kanban, calendar, insights, reminders — is preserved.
+
+## License
+
+MIT

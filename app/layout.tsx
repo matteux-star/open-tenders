@@ -19,14 +19,14 @@ const fontMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://tenderflow.com"),
+  metadataBase: new URL("https://opentenders.app"),
   title: {
-    default: "TenderFlow",
-    template: "%s | TenderFlow",
+    default: "OpenTenders",
+    template: "%s | OpenTenders",
   },
   description:
-    "TenderFlow helps bid teams replace spreadsheet tender trackers with one workspace for bids, deadlines, owners, and risk.",
-  applicationName: "TenderFlow",
+    "OpenTenders helps bid teams replace spreadsheet tender trackers with one workspace for bids, deadlines, owners, and risk.",
+  applicationName: "OpenTenders",
   manifest: "/manifest.webmanifest",
   icons: {
     icon: [
@@ -37,24 +37,24 @@ export const metadata: Metadata = {
     apple: [{ url: "/favicons/apple-touch-icon.png", sizes: "180x180" }],
   },
   openGraph: {
-    title: "TenderFlow",
+    title: "OpenTenders",
     description:
       "Replace spreadsheet-led tender tracking with one workspace for bids, deadlines, owners, and risk.",
     url: "/",
-    siteName: "TenderFlow",
+    siteName: "OpenTenders",
     images: [
       {
         url: "/og/og-image-light.png",
         width: 1200,
         height: 630,
-        alt: "TenderFlow bid management",
+        alt: "OpenTenders bid management",
       },
     ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "TenderFlow",
+    title: "OpenTenders",
     description:
       "Replace spreadsheet-led tender tracking with one workspace for bids, deadlines, owners, and risk.",
     images: ["/og/og-image-light.png"],

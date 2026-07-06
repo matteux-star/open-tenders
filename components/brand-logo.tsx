@@ -18,42 +18,79 @@ type BrandLogoProps = {
 const logoConfig: Record<
   BrandLogoVariant,
   {
-    src: string
     width: number
     height: number
     alt: string
   }
 > = {
   compact: {
-    src: "logo-compact.svg",
     width: 360,
     height: 72,
-    alt: "TenderFlow",
+    alt: "OpenTenders",
   },
   horizontal: {
-    src: "logo-horizontal.svg",
     width: 560,
     height: 100,
-    alt: "TenderFlow bid management",
+    alt: "OpenTenders bid management",
   },
   "horizontal-transparent": {
-    src: "logo-horizontal-transparent.svg",
     width: 560,
     height: 100,
-    alt: "TenderFlow bid management",
+    alt: "OpenTenders bid management",
   },
   stacked: {
-    src: "logo-stacked.svg",
     width: 300,
     height: 200,
-    alt: "TenderFlow bid management",
+    alt: "OpenTenders bid management",
   },
   mark: {
-    src: "logomark-64.svg",
     width: 64,
     height: 64,
-    alt: "TenderFlow",
+    alt: "OpenTenders",
   },
+}
+
+function LogoInline({ variant, tone }: { variant: BrandLogoVariant; tone: "light" | "dark" }) {
+  const fill = tone === "dark" ? "#FFFFFF" : "#0F172A"
+  const accent = tone === "dark" ? "#38BDF8" : "#0284C7"
+
+  if (variant === "mark") {
+    return (
+      <svg viewBox="0 0 64 64" width={64} height={64} fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="4" width="56" height="56" rx="12" stroke={fill} strokeWidth="3" />
+        <path d="M20 24h24M20 32h24M20 40h16" stroke={accent} strokeWidth="3" strokeLinecap="round" />
+      </svg>
+    )
+  }
+
+  if (variant === "compact") {
+    return (
+      <svg viewBox="0 0 360 72" width={360} height={72} fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="8" y="8" width="56" height="56" rx="12" stroke={fill} strokeWidth="3" />
+        <path d="M24 28h24M24 36h24M24 44h16" stroke={accent} strokeWidth="3" strokeLinecap="round" />
+        <text x="80" y="44" fill={fill} fontSize="28" fontFamily="system-ui, sans-serif" fontWeight="700">OpenTenders</text>
+      </svg>
+    )
+  }
+
+  if (variant === "stacked") {
+    return (
+      <svg viewBox="0 0 300 200" width={300} height={200} fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="110" y="10" width="80" height="80" rx="16" stroke={fill} strokeWidth="3" />
+        <path d="M130 36h40M130 48h40M130 60h28" stroke={accent} strokeWidth="3" strokeLinecap="round" />
+        <text x="150" y="130" textAnchor="middle" fill={fill} fontSize="28" fontFamily="system-ui, sans-serif" fontWeight="700">OpenTenders</text>
+      </svg>
+    )
+  }
+
+  // horizontal / horizontal-transparent
+  return (
+    <svg viewBox="0 0 560 100" width={560} height={100} fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="16" y="18" width="64" height="64" rx="14" stroke={fill} strokeWidth="3" />
+      <path d="M34 38h28M34 50h28M34 62h18" stroke={accent} strokeWidth="3" strokeLinecap="round" />
+      <text x="104" y="62" fill={fill} fontSize="36" fontFamily="system-ui, sans-serif" fontWeight="700">OpenTenders</text>
+    </svg>
+  )
 }
 
 export function BrandLogo({
@@ -63,8 +100,6 @@ export function BrandLogo({
   tone = "auto",
 }: BrandLogoProps) {
   const config = logoConfig[variant]
-  const loading = priority ? "eager" : "lazy"
-  const fetchPriority = priority ? "high" : "auto"
 
   if (tone !== "auto") {
     return (
@@ -72,15 +107,7 @@ export function BrandLogo({
         className={cn("relative block shrink-0 overflow-hidden", className)}
         style={{ aspectRatio: `${config.width} / ${config.height}` }}
       >
-        <img
-          src={`/brand/tenderflow/svg/${tone}/${config.src}`}
-          width={config.width}
-          height={config.height}
-          alt={config.alt}
-          loading={loading}
-          fetchPriority={fetchPriority}
-          className="block size-full object-contain"
-        />
+        <LogoInline variant={variant} tone={tone} />
       </span>
     )
   }
@@ -90,25 +117,12 @@ export function BrandLogo({
       className={cn("relative block shrink-0 overflow-hidden", className)}
       style={{ aspectRatio: `${config.width} / ${config.height}` }}
     >
-      <img
-        src={`/brand/tenderflow/svg/light/${config.src}`}
-        width={config.width}
-        height={config.height}
-        alt={config.alt}
-        loading={loading}
-        fetchPriority={fetchPriority}
-        className="block size-full object-contain dark:hidden"
-      />
-      <img
-        src={`/brand/tenderflow/svg/dark/${config.src}`}
-        width={config.width}
-        height={config.height}
-        alt=""
-        aria-hidden="true"
-        loading={loading}
-        fetchPriority={fetchPriority}
-        className="hidden size-full object-contain dark:block"
-      />
+      <span className="block dark:hidden">
+        <LogoInline variant={variant} tone="light" />
+      </span>
+      <span className="hidden dark:block">
+        <LogoInline variant={variant} tone="dark" />
+      </span>
     </span>
   )
 }

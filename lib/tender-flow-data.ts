@@ -5,13 +5,6 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 import { createBrowserSupabaseClient } from "@/lib/supabase/client"
 import type { Database, Json } from "@/lib/supabase/database.types"
 import { isTerminalStage } from "@/lib/tender-lifecycle"
-export {
-  BILLING_ACCESS_STATES,
-  getBillingAccessState,
-  hasBillableSubscription,
-  isBillingRecoveryState,
-} from "@/lib/billing-access"
-
 type Tables = Database["public"]["Tables"]
 
 export type Profile = Tables["profiles"]["Row"]
@@ -24,8 +17,6 @@ export type OrganisationNotificationSettings =
 export type MemberNotificationPreference =
   Tables["member_notification_preferences"]["Row"]
 export type TelegramLink = Tables["telegram_links"]["Row"]
-export type OrganisationBillingProfile =
-  Tables["organisation_billing_profiles"]["Row"]
 export type Tender = Tables["tenders"]["Row"]
 export type TenderDeadline = Tables["tender_deadlines"]["Row"]
 export type TenderActivity = Tables["tender_activity"]["Row"]
@@ -35,8 +26,6 @@ export type TenderUpdate = Tables["tenders"]["Update"]
 export type TenderDeadlineInsert = Tables["tender_deadlines"]["Insert"]
 export type TenderDeadlineUpdate = Tables["tender_deadlines"]["Update"]
 export type OrganisationUpdate = Tables["organisations"]["Update"]
-export type OrganisationBillingProfileInsert =
-  Tables["organisation_billing_profiles"]["Insert"]
 export type OrganisationInvitationInsert =
   Tables["organisation_invitations"]["Insert"]
 export type OrganisationInvitationUpdate =
@@ -73,7 +62,6 @@ export type TenderFlowData = {
   notificationSettings: OrganisationNotificationSettings | null
   notificationPreferences: MemberNotificationPreference[]
   telegramLink: TelegramLink | null
-  billingProfile: OrganisationBillingProfile | null
   tenders: Tender[]
   deadlines: TenderDeadline[]
   activities: TenderActivity[]
@@ -90,7 +78,6 @@ const emptyData: TenderFlowData = {
   notificationSettings: null,
   notificationPreferences: [],
   telegramLink: null,
-  billingProfile: null,
   tenders: [],
   deadlines: [],
   activities: [],
@@ -218,7 +205,6 @@ export function useTenderFlowData() {
         notificationSettingsResult,
         notificationPreferencesResult,
         telegramLinkResult,
-        billingProfileResult,
         tendersResult,
         deadlinesResult,
         activitiesResult,
@@ -260,11 +246,6 @@ export function useTenderFlowData() {
           .is("revoked_at", null)
           .maybeSingle(),
         supabase
-          .from("organisation_billing_profiles")
-          .select("*")
-          .eq("organisation_id", organisationId)
-          .maybeSingle(),
-        supabase
           .from("tenders")
           .select("*")
           .eq("organisation_id", organisationId)
@@ -296,7 +277,6 @@ export function useTenderFlowData() {
         notificationSettingsResult.error ??
         notificationPreferencesResult.error ??
         telegramLinkResult.error ??
-        billingProfileResult.error ??
         tendersResult.error ??
         deadlinesResult.error ??
         activitiesResult.error ??
@@ -317,7 +297,6 @@ export function useTenderFlowData() {
             notificationSettings: notificationSettingsResult.data,
             notificationPreferences: notificationPreferencesResult.data ?? [],
             telegramLink: telegramLinkResult.data,
-            billingProfile: billingProfileResult.data,
             tenders: tendersResult.data ?? [],
             deadlines: deadlinesResult.data ?? [],
             activities: activitiesResult.data ?? [],
@@ -601,22 +580,6 @@ export async function createOrganisation(input: {
   return data
 }
 
-export async function upsertOrganisationBillingProfile(
-  input: OrganisationBillingProfileInsert
-) {
-  const supabase = createBrowserSupabaseClient()
-
-  const { data, error } = await supabase
-    .from("organisation_billing_profiles")
-    .upsert(input, { onConflict: "organisation_id" })
-    .select()
-    .single()
-
-  if (error) throw new Error(error.message)
-
-  return data
-}
-
 export async function createInvitation(input: OrganisationInvitationInsert) {
   const supabase = createBrowserSupabaseClient()
 
@@ -796,29 +759,6 @@ export async function unlinkTelegramAccount(userId: string) {
     .is("revoked_at", null)
 
   if (error) throw new Error(error.message)
-}
-
-export function getBillingPortalUrl(
-  billingProfile: OrganisationBillingProfile | null
-) {
-  return billingProfile?.portal_url ?? null
-}
-
-export async function createCheckoutSession(
-  organisationId: string,
-  planKey: string
-) {
-  return invokeTenderFlowFunction<{ url: string }>("create-checkout-session", {
-    organisationId,
-    planKey,
-  })
-}
-
-export async function createBillingPortalSession(organisationId: string) {
-  return invokeTenderFlowFunction<{ url: string }>(
-    "create-billing-portal-session",
-    { organisationId }
-  )
 }
 
 export async function logTenderActivity(input: TenderActivityInsert) {

@@ -43,7 +43,7 @@ async function sendEmail(input: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
       "Idempotency-Key": input.idempotencyKey,
-      "User-Agent": "TenderFlow/1.0",
+      "User-Agent": "OpenTenders/1.0",
     },
     body: JSON.stringify({
       from,
@@ -80,7 +80,7 @@ async function sendTelegram(input: {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "User-Agent": "TenderFlow/1.0",
+      "User-Agent": "OpenTenders/1.0",
     },
     body: JSON.stringify({
       chat_id: input.chatId,
@@ -140,7 +140,7 @@ function reminderHtml(input: {
     <p>Tender: ${escapeHtml(input.tenderTitle)}</p>
     <p>Type: ${escapeHtml(deadlineTypeLabel(input.deadlineType))}</p>
     <p>Due: ${input.due}</p>
-    <p><a href="${input.tenderUrl}">Open TenderFlow</a></p>
+    <p><a href="${input.tenderUrl}">OpenTenders</a></p>
   `
 }
 
@@ -372,7 +372,7 @@ Deno.serve(async (req) => {
                 recipient,
                 deadline,
                 tender,
-                organisationName: organisation?.name ?? "TenderFlow",
+                organisationName: organisation?.name ?? "OpenTenders",
                 days,
                 localDueDate: localDateKey(deadline.due_at, timezone) ?? localDate,
               })

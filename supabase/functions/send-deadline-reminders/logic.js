@@ -47,7 +47,7 @@ export function deadlineTypeLabel(value) {
  */
 export function reminderText(input) {
   return [
-    "TenderFlow deadline reminder",
+    "OpenTenders deadline reminder",
     "",
     `Organisation: ${input.organisationName}`,
     `Tender: ${input.tenderTitle}`,
@@ -56,7 +56,7 @@ export function reminderText(input) {
     `Due: ${input.due}`,
     `Reminder: ${input.lead}`,
     "",
-    "Open TenderFlow:",
+    "OpenTenders:",
     input.tenderUrl,
   ].join("\n")
 }

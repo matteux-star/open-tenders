@@ -19,9 +19,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { createBrowserSupabaseClient } from "@/lib/supabase/client"
 import {
-  BILLING_ACCESS_STATES,
-  createBillingPortalSession,
-  getBillingAccessState,
   useTenderFlowData,
 } from "@/lib/tender-flow-data"
 
@@ -156,7 +153,7 @@ function AuthForm({ initialMode = "sign-in" }: { initialMode?: AuthMode }) {
           <div className="flex min-h-svh flex-col">
             <header>
               <div className="flex h-16 items-center px-4 sm:px-6 lg:px-8">
-                <Link href="/" aria-label="TenderFlow home">
+                <Link href="/" aria-label="OpenTenders home">
                   <BrandLogo
                     variant="mark"
                     tone="light"
@@ -323,36 +320,6 @@ function WorkspaceLoading() {
   )
 }
 
-function BillingBlocked({ onSignOut }: { onSignOut: () => void }) {
-  const router = useRouter()
-
-  return (
-    <div className="flex min-h-svh items-center justify-center bg-background p-4 text-foreground">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <BrandLogo />
-          <CardTitle>Finish billing setup</CardTitle>
-          <CardDescription>
-            TenderFlow workspaces need an active subscription or trial before
-            the dashboard opens.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <Button
-            className="w-full"
-            onClick={() => router.replace("/onboarding")}
-          >
-            Continue setup
-          </Button>
-          <Button className="w-full" variant="outline" onClick={onSignOut}>
-            Sign out
-          </Button>
-        </CardContent>
-      </Card>
-    </div>
-  )
-}
-
 function AccessError({
   message,
   onSignOut,
@@ -374,58 +341,6 @@ function AccessError({
           </Button>
         </CardContent>
       </Card>
-    </div>
-  )
-}
-
-function BillingRecoveryBanner({
-  organisationId,
-  isAdmin,
-}: {
-  organisationId: string
-  isAdmin: boolean
-}) {
-  const [opening, setOpening] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-
-  async function openPortal() {
-    setOpening(true)
-    setError(null)
-
-    try {
-      const session = await createBillingPortalSession(organisationId)
-      window.location.href = session.url
-    } catch (portalError) {
-      setError(
-        portalError instanceof Error
-          ? portalError.message
-          : "Could not open billing portal."
-      )
-      setOpening(false)
-    }
-  }
-
-  return (
-    <div className="border-b border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-      <div className="mx-auto flex max-w-7xl flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className="font-medium">Billing needs attention</p>
-          <p className="text-amber-800">
-            Your workspace is still available while payment is recovered.
-          </p>
-          {error ? <p className="text-destructive">{error}</p> : null}
-        </div>
-        {isAdmin ? (
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={openPortal}
-            disabled={opening}
-          >
-            {opening ? "Opening..." : "Manage billing"}
-          </Button>
-        ) : null}
-      </div>
     </div>
   )
 }
@@ -489,31 +404,12 @@ export function AuthGate({ children }: { children: ReactNode }) {
     return (
       <AccessError
         message={
-          tenderFlowData.error ?? "TenderFlow could not load this workspace."
+          tenderFlowData.error ?? "OpenTenders could not load this workspace."
         }
         onSignOut={() => void supabase.auth.signOut()}
       />
     )
   }
 
-  const billingAccessState = getBillingAccessState(
-    tenderFlowData.billingProfile
-  )
-
-  if (billingAccessState === BILLING_ACCESS_STATES.blocked) {
-    return <BillingBlocked onSignOut={() => void supabase.auth.signOut()} />
-  }
-
-  return (
-    <>
-      {billingAccessState === BILLING_ACCESS_STATES.recovery &&
-      tenderFlowData.organisation?.id ? (
-        <BillingRecoveryBanner
-          organisationId={tenderFlowData.organisation.id}
-          isAdmin={tenderFlowData.currentMember?.role === "admin"}
-        />
-      ) : null}
-      {children}
-    </>
-  )
+  return <>{children}</>
 }

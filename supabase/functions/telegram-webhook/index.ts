@@ -17,7 +17,7 @@ async function sendTelegramMessage(chatId: string, text: string) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "User-Agent": "TenderFlow/1.0",
+      "User-Agent": "OpenTenders/1.0",
     },
     body: JSON.stringify({
       chat_id: chatId,

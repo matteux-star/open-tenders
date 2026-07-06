@@ -54,7 +54,7 @@ test("sidebar is narrower, solid, and logo-safe", () => {
   assert.match(globals, /prefers-reduced-motion:\s*reduce/)
 })
 
-test("auth page uses the split Cruip layout with the TenderFlow mark", () => {
+test("auth page uses the split Cruip layout with the OpenTenders mark", () => {
   const authGate = read("components/auth-gate.tsx")
 
   assert.match(authGate, /auth-image\.jpg/)
@@ -74,11 +74,13 @@ test("logged-in product surfaces keep subtle static polish hooks", () => {
   assert.match(settings, /tf-settings-card/)
 })
 
-test("authenticated sidebar uses compact TenderFlow logo and workspace identity", () => {
+test("authenticated sidebar uses compact OpenTenders logo and workspace identity", () => {
   const brandLogo = read("components/brand-logo.tsx")
   const shell = read("components/app-shell.tsx")
 
-  assert.match(brandLogo, /compact:\s*{\s*src:\s*"logo-compact\.svg"/s)
+  assert.match(brandLogo, /alt: "OpenTenders"/)
+  assert.match(brandLogo, /LogoInline/)
+  assert.match(brandLogo, /variant=\{variant\}/)
   assert.match(shell, /variant="compact"/)
   assert.doesNotMatch(shell, /variant="horizontal-transparent"/)
   assert.match(shell, /workspaceName\?: string \| null/)
@@ -86,18 +88,17 @@ test("authenticated sidebar uses compact TenderFlow logo and workspace identity"
   assert.match(shell, /workspaceRole\?: string \| null/)
   assert.match(shell, /formattedWorkspaceRole/)
   assert.match(shell, /workspaceSubtitle/)
-  assert.doesNotMatch(shell, /TenderFlow workspace/)
+  assert.doesNotMatch(shell, /OpenTenders workspace/)
   assert.doesNotMatch(shell, />\s*Workspace\s*</)
 })
 
-test("dark compact logo keeps a transparent background with white text", () => {
-  const darkCompactLogo = read(
-    "public/brand/tenderflow/svg/dark/logo-compact.svg"
-  )
+test("dark compact logo uses inline SVG with white text", () => {
+  const brandLogo = read("components/brand-logo.tsx")
 
-  assert.doesNotMatch(darkCompactLogo, /<rect\b/)
-  assert.match(darkCompactLogo, /fill="#FFFFFF">TenderFlow/)
-  assert.doesNotMatch(darkCompactLogo, /BID MANAGEMENT/)
+  assert.match(brandLogo, /fill=\{tone === "dark" \? "#FFFFFF" : "#0F172A"\}/)
+  assert.match(brandLogo, /accent=\{tone === "dark" \? "#38BDF8" : "#0284C7"\}/)
+  assert.match(brandLogo, /variant === "compact"/)
+  assert.doesNotMatch(brandLogo, /BID MANAGEMENT/)
 })
 
 test("dashboard no longer uses the priority rail polish hook", () => {

@@ -458,7 +458,7 @@ function TenderFormContent({
             <Field
               id="itt-due-at"
               label="ITT due date"
-              helper="Primary submission deadline shown across TenderFlow."
+              helper="Primary submission deadline shown across OpenTenders."
             >
               <Input
                 id="itt-due-at"

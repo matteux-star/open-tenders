@@ -165,7 +165,7 @@ test("reminderText includes organisation name and readable spacing", () => {
       tenderUrl: "https://tender-flow.co.uk/app/tenders",
     }),
     [
-      "TenderFlow deadline reminder",
+      "OpenTenders deadline reminder",
       "",
       "Organisation: Acme Council",
       "Tender: Test 1",
@@ -174,7 +174,7 @@ test("reminderText includes organisation name and readable spacing", () => {
       "Due: Tue, 30 Jun 2026 16:20:00 GMT",
       "Reminder: in 14 days",
       "",
-      "Open TenderFlow:",
+      "OpenTenders:",
       "https://tender-flow.co.uk/app/tenders",
     ].join("\n")
   )

@@ -1,5 +1,5 @@
 {
-  "name": "tender-flow",
+  "name": "open-tenders",
   "version": "0.0.1",
   "type": "module",
   "private": true,
@@ -41,5 +41,6 @@
     "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^4.2.1",
     "typescript": "^5.9.3"
-  }
+  },
+  "description": "Open-source tender tracking and management application"
 }

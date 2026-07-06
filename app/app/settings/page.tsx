@@ -4,7 +4,6 @@ import {
   Bell,
   Building2,
   Check,
-  CreditCard,
   Info,
   Lock,
   Mail,
@@ -68,8 +67,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import {
-  createBillingPortalSession,
-  createCheckoutSession,
   createSettingsAccessRequest,
   createTelegramLink,
   formatDateTime,
@@ -105,7 +102,6 @@ type SettingsSection =
   | "team"
   | "permissions"
   | "notifications"
-  | "billing"
 
 const settingsSectionLabels: Record<SettingsSection, string> = {
   profile: "Profile",
@@ -113,7 +109,6 @@ const settingsSectionLabels: Record<SettingsSection, string> = {
   team: "Team & seats",
   permissions: "Permissions",
   notifications: "Notifications",
-  billing: "Billing",
 }
 
 const settingsSections = Object.keys(settingsSectionLabels) as SettingsSection[]
@@ -381,7 +376,6 @@ export default function SettingsPage() {
     notificationSettings,
     notificationPreferences,
     telegramLink,
-    billingProfile,
     loading,
     error,
     reload,
@@ -398,14 +392,9 @@ export default function SettingsPage() {
     (item) => item.status === "pending"
   )
   const activeSeats = members.length
-  const seatLimit =
-    billingProfile?.seat_quantity ??
-    billingProfile?.seat_allowance ??
-    organisation?.seat_limit ??
-    10
+  const seatLimit = organisation?.seat_limit ?? 10
   const occupiedSeats = activeSeats + pendingInvitations.length
   const adminCount = members.filter((member) => member.role === "admin").length
-  const hasStripeCustomer = Boolean(billingProfile?.provider_customer_id)
   const currentProfile =
     profiles.find((item) => item.id === currentMember?.user_id) ?? null
   const currentProfileName = currentProfile?.full_name ?? ""
@@ -437,7 +426,7 @@ export default function SettingsPage() {
   const visibleSettingsSection =
     isSettingsSection(settingsSection) &&
     (hasFullSettingsAccess ||
-      (settingsSection !== "organisation" && settingsSection !== "billing"))
+      settingsSection !== "organisation")
       ? settingsSection
       : defaultSettingsSection
   const currentNotificationPreference = notificationPreferences.find(
@@ -457,7 +446,7 @@ export default function SettingsPage() {
     if (
       isSettingsSection(value) &&
       (hasFullSettingsAccess ||
-        (value !== "organisation" && value !== "billing"))
+        value !== "organisation")
     ) {
       setSettingsSection(value)
       return
@@ -806,21 +795,6 @@ export default function SettingsPage() {
     })
   }
 
-  async function handleBillingAction() {
-    if (!organisation?.id) return
-
-    await runAction("billing", async () => {
-      const session = hasStripeCustomer
-        ? await createBillingPortalSession(organisation.id)
-        : await createCheckoutSession(
-            organisation.id,
-            billingProfile?.plan_key ?? "standard"
-          )
-
-      window.location.href = session.url
-    })
-  }
-
   if (loading) {
     return (
       <AppShell
@@ -988,11 +962,6 @@ export default function SettingsPage() {
                     <SelectItem value="notifications">
                       {settingsSectionLabels.notifications}
                     </SelectItem>
-                    {hasFullSettingsAccess ? (
-                      <SelectItem value="billing">
-                        {settingsSectionLabels.billing}
-                      </SelectItem>
-                    ) : null}
                   </SelectGroup>
                 </SelectContent>
               </Select>
@@ -1005,9 +974,6 @@ export default function SettingsPage() {
               <TabsTrigger value="team">Team & seats</TabsTrigger>
               <TabsTrigger value="permissions">Permissions</TabsTrigger>
               <TabsTrigger value="notifications">Notifications</TabsTrigger>
-              {hasFullSettingsAccess ? (
-                <TabsTrigger value="billing">Billing</TabsTrigger>
-              ) : null}
             </TabsList>
             {hasFullSettingsAccess &&
             visibleSettingsSection === "organisation" ? (
@@ -1591,7 +1557,7 @@ export default function SettingsPage() {
                 status={currentEmailEnabled ? "Enabled for you" : "Paused for you"}
                 detail={
                   currentEmailEnabled
-                    ? "TenderFlow will email you when your organisation reminders are active."
+                    ? "OpenTenders will email you when your organisation reminders are active."
                     : "You will not receive email reminder deliveries until this is enabled."
                 }
                 tone={currentEmailEnabled ? "ready" : "neutral"}
@@ -1849,82 +1815,6 @@ export default function SettingsPage() {
             </Card>
           </TabsContent>
 
-          {hasFullSettingsAccess ? (
-            <TabsContent value="billing">
-              <Card className="tf-settings-card">
-                <CardHeader>
-                  <CardAction>
-                    <div className="flex size-9 items-center justify-center rounded-md bg-primary/10 text-primary">
-                      <CreditCard className="size-4" aria-hidden="true" />
-                    </div>
-                  </CardAction>
-                  <CardTitle>Billing and seats</CardTitle>
-                  <CardDescription>
-                    Billing metadata is stored for provider activation.
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-5">
-                  <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-6">
-                    {[
-                      [
-                        "Current plan",
-                        billingProfile?.plan_name ?? "Standard",
-                      ],
-                      ["Active seats", String(activeSeats)],
-                      ["Pending invites", String(pendingInvitations.length)],
-                      ["Seat limit", String(seatLimit)],
-                      [
-                        "Active tender limit",
-                        String(billingProfile?.active_tender_limit ?? 15),
-                      ],
-                      [
-                        "Billing admin",
-                        profileName(
-                          profiles,
-                          billingProfile?.billing_admin_id ??
-                            currentMember?.user_id ??
-                            null
-                        ),
-                      ],
-                    ].map(([label, value]) => (
-                      <div
-                        key={label}
-                        className="rounded-md border bg-muted/20 p-3"
-                      >
-                        <p className="text-xs text-muted-foreground">{label}</p>
-                        <p className="mt-1 text-sm font-medium">{value}</p>
-                      </div>
-                    ))}
-                  </div>
-                  <Separator />
-                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                      <p className="text-sm font-medium">
-                        {billingProfile?.subscription_status
-                          ? labelFromValue(billingProfile.subscription_status)
-                          : "Not configured"}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {hasStripeCustomer
-                          ? "Billing portal is available for this organisation."
-                          : "Start a Stripe subscription for active and pending seats."}
-                      </p>
-                    </div>
-                    <Button
-                      onClick={handleBillingAction}
-                      disabled={workingKey === "billing"}
-                    >
-                      {workingKey === "billing"
-                        ? "Opening..."
-                        : hasStripeCustomer
-                          ? "Manage billing"
-                          : "Start subscription"}
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-          ) : null}
         </Tabs>
 
         <Card className="tf-settings-card">

@@ -106,7 +106,7 @@ export function AppShell({
       <div className="grid min-h-svh w-full min-w-0 lg:grid-cols-[224px_1fr]">
         <aside className="tf-sidebar-shell hidden min-w-0 flex-col border-sidebar-border bg-sidebar text-sidebar-foreground lg:sticky lg:top-0 lg:flex lg:h-svh lg:self-start lg:border-r">
           <div className="flex h-16 items-center gap-3 border-b border-sidebar-border/80 px-4 lg:px-5">
-            <Link href="/app" aria-label="TenderFlow dashboard">
+            <Link href="/app" aria-label="OpenTenders dashboard">
               <BrandLogo
                 variant="compact"
                 priority
@@ -121,7 +121,7 @@ export function AppShell({
           <div className="hidden border-t border-sidebar-border/80 p-3 lg:block">
             <div className="tf-workspace-card rounded-lg border border-sidebar-border px-3 py-3">
               <p className="text-xs font-medium text-sidebar-accent-foreground">
-                {workspaceName ?? "TenderFlow"}
+                {workspaceName ?? "OpenTenders"}
               </p>
               {workspaceSubtitle ? (
                 <p className="mt-0.5 text-xs text-sidebar-foreground/65">
@@ -165,7 +165,7 @@ export function AppShell({
                   <div className="mt-auto border-t border-sidebar-border/80 p-4">
                     <div className="tf-workspace-card rounded-lg border border-sidebar-border bg-white/5 px-3 py-3">
                       <p className="text-sm font-medium text-sidebar-accent-foreground">
-                        {workspaceName ?? "TenderFlow"}
+                        {workspaceName ?? "OpenTenders"}
                       </p>
                       {workspaceSubtitle ? (
                         <p className="mt-0.5 text-xs text-sidebar-foreground/70">

@@ -36,7 +36,7 @@ function AcceptInviteContent() {
       activePage="Settings"
       eyebrow="Invitation"
       title="Accept invitation"
-      description="Join your TenderFlow organisation."
+      description="Join your OpenTenders organisation."
       actionSlot={
         <Button size="sm" onClick={() => router.push("/app")}>
           Go to dashboard

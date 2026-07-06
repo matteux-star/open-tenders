@@ -242,7 +242,6 @@ export default function Page() {
     members,
     organisation,
     currentMember,
-    billingProfile,
     loading,
     error,
     reload,
@@ -407,14 +406,6 @@ export default function Page() {
         return updatedTime(b.tender) - updatedTime(a.tender)
       })
   })()
-  const activeTenderLimit = billingProfile?.active_tender_limit ?? null
-  const overActiveTenderLimit =
-    typeof activeTenderLimit === "number" &&
-    dashboard.kpis.liveTenders.count > activeTenderLimit
-  const canSeeCapacityWarning =
-    overActiveTenderLimit &&
-    (currentMember?.role === "admin" ||
-      currentMember?.user_id === billingProfile?.billing_admin_id)
   const visibleFilterOptions = attentionFilterOptions.filter(
     (item) => !item.hidden?.(attentionItems)
   )
@@ -444,10 +435,7 @@ export default function Page() {
     {
       label: "Live tenders",
       value: String(dashboard.kpis.liveTenders.count),
-      detail:
-        typeof activeTenderLimit === "number"
-          ? `${dashboard.kpis.liveTenders.count} / ${activeTenderLimit} soft limit`
-          : "Currently active",
+      detail: "Currently active",
       icon: Target,
       className: "border-primary/20 bg-primary/10 text-primary",
     },
@@ -517,12 +505,6 @@ export default function Page() {
     }
   }
 
-  function openBillingPortal() {
-    if (!billingProfile?.portal_url) return
-
-    window.location.href = billingProfile.portal_url
-  }
-
   return (
     <>
       <Sheet
@@ -568,31 +550,6 @@ export default function Page() {
                   <Alert variant="destructive">
                     <AlertTitle>Action failed</AlertTitle>
                     <AlertDescription>{actionError}</AlertDescription>
-                  </Alert>
-                ) : null}
-                {canSeeCapacityWarning ? (
-                  <Alert className="border-amber-600/20 bg-amber-50/70 text-amber-950">
-                    <AlertTriangle className="size-4 text-amber-700" />
-                    <AlertTitle>
-                      Workspace usage: {dashboard.kpis.liveTenders.count} /{" "}
-                      {activeTenderLimit} active tenders
-                    </AlertTitle>
-                    <AlertDescription className="flex flex-col gap-3 text-amber-900 sm:flex-row sm:items-center sm:justify-between">
-                      <span>
-                        You can keep working. Review the plan before adding more
-                        live bid volume.
-                      </span>
-                      {billingProfile?.portal_url ? (
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="border-amber-700/30 bg-white/60 text-amber-900 hover:bg-white"
-                          onClick={openBillingPortal}
-                        >
-                          Review plan
-                        </Button>
-                      ) : null}
-                    </AlertDescription>
                   </Alert>
                 ) : null}
 

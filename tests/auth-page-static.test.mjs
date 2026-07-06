@@ -10,7 +10,7 @@ function read(pathname) {
   return readFileSync(path(pathname), "utf8")
 }
 
-test("auth page uses the Cruip split image layout with TenderFlow branding", () => {
+test("auth page uses the Cruip split image layout with OpenTenders branding", () => {
   const authGate = read("components/auth-gate.tsx")
 
   assert.equal(existsSync(path("public/images/auth-image.jpg")), true)
