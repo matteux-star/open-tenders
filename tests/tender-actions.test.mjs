@@ -31,7 +31,7 @@ test("tender form dialog supports editing existing tender data", () => {
 
 test("tender form captures explicit calendar dates and syncs legacy ITT deadline", () => {
   const form = read("components/tender-form-dialog.tsx")
-  const data = read("lib/tender-flow-data.ts")
+  const data = read("lib/open-tenders-data.ts")
 
   assert.match(form, /PSQ due date/)
   assert.match(form, /ITT due date/)
@@ -75,7 +75,7 @@ test("schema and types expose explicit tender calendar date fields", () => {
 })
 
 test("profile names can be updated through the profiles table", () => {
-  const data = read("lib/tender-flow-data.ts")
+  const data = read("lib/open-tenders-data.ts")
 
   assert.match(data, /export async function updateProfileName/)
   assert.match(data, /\.from\("profiles"\)/)
@@ -94,7 +94,7 @@ test("tenders page exposes admin delete actions from the sheet and row menu", ()
 })
 
 test("deleteTender preserves linked contracts before removing the tender", () => {
-  const data = read("lib/tender-flow-data.ts")
+  const data = read("lib/open-tenders-data.ts")
   const helperStart = data.indexOf("export async function deleteTender")
   const unlinkContracts = data.indexOf('.from("contracts")', helperStart)
   const nullTenderId = data.indexOf("tender_id: null", unlinkContracts)

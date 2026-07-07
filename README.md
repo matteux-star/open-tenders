@@ -47,8 +47,8 @@ npm run dev
 
 OpenTenders is designed to be self-hosted. Deploy via:
 
+- **Cloudflare Pages** — `npm run pages:build` then deploy with Wrangler
 - **Docker** — `docker compose up -d` (see `Dockerfile`)
-- **Netlify** — `npx netlify deploy`
 - **Vercel** — connect your Supabase project and deploy
 
 ## Origin

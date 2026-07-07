@@ -19,7 +19,7 @@ import {
   tendersCreatedInPeriod,
   upcomingMilestones,
   valueAtRisk,
-} from "../lib/tender-flow-metrics.js"
+} from "../lib/open-tenders-metrics.js"
 
 function tender({
   id,

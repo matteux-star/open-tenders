@@ -33,7 +33,7 @@ async function sendEmail(input: {
   idempotencyKey: string
 }) {
   const apiKey = Deno.env.get("RESEND_API_KEY")
-  const from = Deno.env.get("RESEND_FROM") ?? "Tender Flow <noreply@example.com>"
+  const from = Deno.env.get("RESEND_FROM") ?? "OpenTenders <noreply@example.com>"
 
   if (!apiKey) return { sent: false, error: "RESEND_API_KEY is not configured." }
 
@@ -53,7 +53,7 @@ async function sendEmail(input: {
       text: input.text,
       tags: [
         { name: "event_type", value: "deadline_reminder" },
-        { name: "app", value: "tender_flow" },
+        { name: "app", value: "open_tenders" },
       ],
     }),
   })

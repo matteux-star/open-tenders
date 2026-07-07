@@ -1,6 +1,6 @@
 {
-  "name": "TenderFlow",
-  "short_name": "TenderFlow",
+  "name": "OpenTenders",
+  "short_name": "OpenTenders",
   "description": "Bid management software for tender pipelines, deadlines, submissions, and team visibility.",
   "start_url": "/",
   "display": "standalone",

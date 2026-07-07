@@ -1,6 +1,6 @@
-# Tender Flow Supabase Scaffold
+# OpenTenders Supabase Scaffold
 
-This folder contains the first-pass backend scaffold for Tender Flow.
+This folder contains the backend scaffold for OpenTenders.
 
 ## Local setup
 
@@ -14,7 +14,7 @@ This folder contains the first-pass backend scaffold for Tender Flow.
 
    ```bash
    NEXT_PUBLIC_SUPABASE_URL=
-   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=
    ```
 
 3. Start or reset Supabase locally:
@@ -28,7 +28,7 @@ The seed creates a demo organisation, three users, sample tenders, deadlines, ac
 
 ## Production Edge Function secrets
 
-Set these Supabase Edge Function secrets before deploying the auth, notification, and billing functions:
+Set these Supabase Edge Function secrets before deploying:
 
 ```bash
 SUPABASE_URL=
@@ -39,12 +39,6 @@ RESEND_FROM=
 TELEGRAM_BOT_TOKEN=
 TELEGRAM_BOT_USERNAME=
 TELEGRAM_WEBHOOK_SECRET=
-STRIPE_SECRET_KEY=
-STRIPE_WEBHOOK_SECRET=
-STRIPE_PRICE_STARTER_MONTHLY=
-STRIPE_PRICE_TEAM_MONTHLY=
-STRIPE_PRICE_BUSINESS_MONTHLY=
-STRIPE_TAX_ENABLED=false
 CRON_SECRET=
 ```
 
@@ -56,9 +50,6 @@ supabase functions deploy accept-invite
 supabase functions deploy send-deadline-reminders
 supabase functions deploy create-telegram-link
 supabase functions deploy telegram-webhook
-supabase functions deploy create-checkout-session
-supabase functions deploy create-billing-portal-session
-supabase functions deploy stripe-webhook
 ```
 
 Schedule `send-deadline-reminders` with Supabase Cron once per day. Use `verify_jwt = false` for that function and send the `CRON_SECRET` value as either the `x-cron-secret` header or a bearer token.

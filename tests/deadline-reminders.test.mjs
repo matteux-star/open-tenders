@@ -162,7 +162,7 @@ test("reminderText includes organisation name and readable spacing", () => {
       deadlineType: "clarification",
       due: "Tue, 30 Jun 2026 16:20:00 GMT",
       lead: "in 14 days",
-      tenderUrl: "https://tender-flow.co.uk/app/tenders",
+      tenderUrl: "https://open-tenders.example.com/app/tenders",
     }),
     [
       "OpenTenders deadline reminder",
@@ -175,7 +175,7 @@ test("reminderText includes organisation name and readable spacing", () => {
       "Reminder: in 14 days",
       "",
       "OpenTenders:",
-      "https://tender-flow.co.uk/app/tenders",
+      "https://open-tenders.example.com/app/tenders",
     ].join("\n")
   )
 })

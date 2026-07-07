@@ -1,5 +1,5 @@
 import { fail, handleOptions, ok } from "../_shared/http.ts"
-import { createAdminClient, getSeatState, requireUser } from "../_shared/supabase.ts"
+import { createAdminClient, requireUser } from "../_shared/supabase.ts"
 
 Deno.serve(async (req) => {
   const options = handleOptions(req)
@@ -39,11 +39,6 @@ Deno.serve(async (req) => {
 
     if ((user.email ?? "").toLowerCase() !== invitation.email.toLowerCase()) {
       return fail("Sign in with the email address this invitation was sent to.", 403)
-    }
-
-    const seats = await getSeatState(supabase, invitation.organisation_id)
-    if (seats.active >= seats.allowance) {
-      return fail("No seats are available for this organisation.", 409)
     }
 
     const { data: existingMember, error: existingError } = await supabase

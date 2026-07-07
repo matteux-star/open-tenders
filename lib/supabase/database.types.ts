@@ -465,75 +465,6 @@ export type Database = {
         }
         Relationships: []
       }
-      organisation_billing_profiles: {
-        Row: {
-          organisation_id: string
-          plan_name: string
-          plan_key: string
-          billing_email: string | null
-          billing_admin_id: string | null
-          provider_customer_id: string | null
-          provider_subscription_id: string | null
-          provider_subscription_item_id: string | null
-          provider_price_id: string | null
-          provider_status: string | null
-          subscription_status: Database["public"]["Enums"]["billing_subscription_status"]
-          seat_allowance: number
-          seat_quantity: number
-          active_tender_limit: number
-          current_period_end: string | null
-          cancel_at_period_end: boolean
-          checkout_completed_at: string | null
-          portal_url: string | null
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          organisation_id: string
-          plan_name?: string
-          plan_key?: string
-          billing_email?: string | null
-          billing_admin_id?: string | null
-          provider_customer_id?: string | null
-          provider_subscription_id?: string | null
-          provider_subscription_item_id?: string | null
-          provider_price_id?: string | null
-          provider_status?: string | null
-          subscription_status?: Database["public"]["Enums"]["billing_subscription_status"]
-          seat_allowance?: number
-          seat_quantity?: number
-          active_tender_limit?: number
-          current_period_end?: string | null
-          cancel_at_period_end?: boolean
-          checkout_completed_at?: string | null
-          portal_url?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          organisation_id?: string
-          plan_name?: string
-          plan_key?: string
-          billing_email?: string | null
-          billing_admin_id?: string | null
-          provider_customer_id?: string | null
-          provider_subscription_id?: string | null
-          provider_subscription_item_id?: string | null
-          provider_price_id?: string | null
-          provider_status?: string | null
-          subscription_status?: Database["public"]["Enums"]["billing_subscription_status"]
-          seat_allowance?: number
-          seat_quantity?: number
-          active_tender_limit?: number
-          current_period_end?: string | null
-          cancel_at_period_end?: boolean
-          checkout_completed_at?: string | null
-          portal_url?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
       organisation_members: {
         Row: {
           id: string
@@ -813,18 +744,6 @@ export type Database = {
     }
     Views: Record<string, never>
     Functions: {
-      billable_seat_count: {
-        Args: {
-          target_organisation_id: string
-        }
-        Returns: number
-      }
-      can_add_organisation_seat: {
-        Args: {
-          target_organisation_id: string
-        }
-        Returns: boolean
-      }
       create_organisation: {
         Args: {
           organisation_name: string
@@ -847,16 +766,6 @@ export type Database = {
       }
     }
     Enums: {
-      billing_subscription_status:
-        | "not_configured"
-        | "incomplete"
-        | "incomplete_expired"
-        | "trialing"
-        | "active"
-        | "past_due"
-        | "cancelled"
-        | "unpaid"
-        | "paused"
       email_delivery_status: "pending" | "sent" | "failed" | "skipped"
       invitation_status: "pending" | "accepted" | "revoked" | "expired"
       notification_delivery_channel: "email" | "telegram"

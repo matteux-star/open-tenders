@@ -42,12 +42,12 @@ import {
   labelFromValue,
   profileName,
   updateTender,
-  useTenderFlowData,
-} from "@/lib/tender-flow-data"
+  useOpenTendersData,
+} from "@/lib/open-tenders-data"
 import {
   type DashboardActionItem,
   dashboardCommandCentre,
-} from "@/lib/tender-flow-metrics"
+} from "@/lib/open-tenders-metrics"
 import { canUseHealthStatusForStage } from "@/lib/tender-lifecycle"
 import { tenderDeadlineClass } from "@/lib/status-styles"
 import { cn } from "@/lib/utils"
@@ -245,7 +245,7 @@ export default function Page() {
     loading,
     error,
     reload,
-  } = useTenderFlowData()
+  } = useOpenTendersData()
   const [createOpen, setCreateOpen] = useState(false)
   const [selectedTender, setSelectedTender] = useState<Tender | null>(null)
   const [markingTenderId, setMarkingTenderId] = useState<string | null>(null)

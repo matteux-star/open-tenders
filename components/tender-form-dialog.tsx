@@ -30,7 +30,7 @@ import {
   type Profile,
   type Tender,
   updateTender,
-} from "@/lib/tender-flow-data"
+} from "@/lib/open-tenders-data"
 import {
   canUseHealthStatusForStage,
   deriveTenderStatusForStage,

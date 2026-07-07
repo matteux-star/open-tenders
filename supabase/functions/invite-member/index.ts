@@ -1,7 +1,6 @@
 import { fail, handleOptions, ok } from "../_shared/http.ts"
 import {
   createAdminClient,
-  getSeatState,
   requireOrgAdmin,
   requireUser,
   type OrganisationRole,
@@ -21,7 +20,7 @@ async function sendInviteEmail(input: {
   message?: string | null
 }) {
   const apiKey = Deno.env.get("RESEND_API_KEY")
-  const from = Deno.env.get("RESEND_FROM") ?? "Tender Flow <noreply@example.com>"
+  const from = Deno.env.get("RESEND_FROM") ?? "OpenTenders <noreply@example.com>"
 
   if (!apiKey) return { sent: false, error: "RESEND_API_KEY is not configured." }
 
@@ -34,7 +33,7 @@ async function sendInviteEmail(input: {
     body: JSON.stringify({
       from,
       to: input.to,
-      subject: `You're invited to ${input.organisationName} on Tender Flow`,
+      subject: `You're invited to ${input.organisationName} on OpenTenders`,
       html: `
         <p>You have been invited to join <strong>${input.organisationName}</strong> as ${input.role}.</p>
         ${input.message ? `<p>${input.message}</p>` : ""}
@@ -72,11 +71,6 @@ Deno.serve(async (req) => {
     if (!roles.has(role)) return fail("Invalid role.")
 
     await requireOrgAdmin(supabase, organisationId, user.id)
-
-    const seats = await getSeatState(supabase, organisationId)
-    if (seats.billable >= seats.allowance) {
-      return fail("Seat limit reached. Increase seats before inviting more people.", 409)
-    }
 
     const { data: organisation, error: orgError } = await supabase
       .from("organisations")

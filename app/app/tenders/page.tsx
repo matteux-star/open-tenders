@@ -70,8 +70,8 @@ import {
   labelFromValue,
   primaryDeadline,
   profileName,
-  useTenderFlowData,
-} from "@/lib/tender-flow-data"
+  useOpenTendersData,
+} from "@/lib/open-tenders-data"
 import {
   PRICE_RANGE_MIN,
   PRICE_RANGE_STEP,
@@ -157,7 +157,7 @@ export default function TendersPage() {
     loading,
     error,
     reload,
-  } = useTenderFlowData()
+  } = useOpenTendersData()
   const [quickView, setQuickView] = useState<TenderQuickView>("all")
   const [health, setHealth] = useState(allOption)
   const [stage, setStage] = useState(allOption)

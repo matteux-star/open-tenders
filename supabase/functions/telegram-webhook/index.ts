@@ -78,7 +78,7 @@ Deno.serve(async (req) => {
     if (!linkToken) {
       await sendTelegramMessage(
         chatId,
-        "This Tender Flow link has expired. Open Settings and generate a new Telegram link."
+        "This OpenTenders link has expired. Open Settings and generate a new Telegram link."
       )
       return ok({ linked: false })
     }
@@ -106,7 +106,7 @@ Deno.serve(async (req) => {
 
     await sendTelegramMessage(
       chatId,
-      "Telegram reminders are linked for Tender Flow deadline notifications."
+      "Telegram reminders are linked for OpenTenders deadline notifications."
     )
 
     return ok({ linked: true })

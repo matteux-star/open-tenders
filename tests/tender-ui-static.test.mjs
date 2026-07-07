@@ -107,7 +107,7 @@ test("tenders page uses compact register header and toolbar", () => {
 
 test("tenders page scopes bulk deletion to selected visible register rows", () => {
   const tenders = read("app/app/tenders/page.tsx")
-  const data = read("lib/tender-flow-data.ts")
+  const data = read("lib/open-tenders-data.ts")
   const dialog = read("components/tender-bulk-delete-dialog.tsx")
 
   assert.match(tenders, /TenderBulkDeleteDialog/)
@@ -170,7 +170,7 @@ test("bulk tender deletion stays isolated to the tenders register", () => {
 
 test("bulk tender deletion preserves existing related-record semantics", () => {
   const schema = read("supabase/migrations/0001_initial_schema.sql")
-  const data = read("lib/tender-flow-data.ts")
+  const data = read("lib/open-tenders-data.ts")
 
   assert.match(
     schema,

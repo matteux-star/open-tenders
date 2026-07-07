@@ -1,4 +1,4 @@
-import type { Tender } from "@/lib/tender-flow-data"
+import type { Tender } from "@/lib/open-tenders-data"
 import { cn } from "@/lib/utils"
 
 export function tenderStatusBadgeClass(status: Tender["status"]) {

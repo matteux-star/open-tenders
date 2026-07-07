@@ -18,8 +18,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
   createOrganisation,
-  useTenderFlowData,
-} from "@/lib/tender-flow-data"
+  useOpenTendersData,
+} from "@/lib/open-tenders-data"
 
 function slugify(value: string) {
   return value
@@ -33,7 +33,7 @@ function slugify(value: string) {
 export default function OnboardingPage() {
   const router = useRouter()
   const { organisation, currentMember, accessState, loading } =
-    useTenderFlowData()
+    useOpenTendersData()
   const [workspaceName, setWorkspaceName] = useState("")
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)

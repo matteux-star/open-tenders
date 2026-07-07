@@ -26,9 +26,9 @@ import {
   formatCurrency,
   formatShortCurrency,
   profileName,
-  useTenderFlowData,
-} from "@/lib/tender-flow-data"
-import { downloadTenderReportCsv } from "@/lib/tender-flow-export"
+  useOpenTendersData,
+} from "@/lib/open-tenders-data"
+import { downloadTenderReportCsv } from "@/lib/open-tenders-export"
 import {
   type InsightPeriod,
   currentPeriodRange,
@@ -36,7 +36,7 @@ import {
   insightTrend,
   outcomeBreakdown,
   tendersCreatedInPeriod,
-} from "@/lib/tender-flow-metrics"
+} from "@/lib/open-tenders-metrics"
 
 const periodLabels: Record<InsightPeriod, string> = {
   all: "All time",
@@ -82,7 +82,7 @@ export default function InsightsPage() {
     currentMember,
     loading,
     error,
-  } = useTenderFlowData()
+  } = useOpenTendersData()
   const [period, setPeriod] = useState<InsightPeriod>("all")
   const range = currentPeriodRange(period)
   const cohort = tendersCreatedInPeriod(tenders, period)

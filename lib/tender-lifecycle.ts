@@ -16,7 +16,7 @@ import {
   terminalTenderStages as jsTerminalTenderStages,
 } from "./tender-lifecycle.runtime.js"
 
-import type { Tender, TenderUpdate } from "@/lib/tender-flow-data"
+import type { Tender, TenderUpdate } from "@/lib/open-tenders-data"
 
 type TenderStage = Tender["stage"]
 type TenderStatus = Tender["status"]

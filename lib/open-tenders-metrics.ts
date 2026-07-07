@@ -31,14 +31,14 @@ import {
   tenderDeadlineTime as jsTenderDeadlineTime,
   tendersCreatedInPeriod as jsTendersCreatedInPeriod,
   tenderValue as jsTenderValue,
-} from "./tender-flow-metrics.runtime.js"
+} from "./open-tenders-metrics.runtime.js"
 
 import type {
   Contract,
   Profile,
   Tender,
   TenderDeadline,
-} from "@/lib/tender-flow-data"
+} from "@/lib/open-tenders-data"
 
 export type InsightPeriod = "all" | "month" | "quarter" | "year"
 

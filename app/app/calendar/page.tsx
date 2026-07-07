@@ -31,7 +31,7 @@ import {
   calendarDeadlineEvents,
   calendarEventsForDay,
   calendarMonthDays,
-} from "@/lib/tender-flow-metrics"
+} from "@/lib/open-tenders-metrics"
 import {
   type Profile,
   type Tender,
@@ -39,8 +39,8 @@ import {
   formatDateTime,
   labelFromValue,
   profileName,
-  useTenderFlowData,
-} from "@/lib/tender-flow-data"
+  useOpenTendersData,
+} from "@/lib/open-tenders-data"
 import { tenderStatusBadgeClass } from "@/lib/status-styles"
 import { cn } from "@/lib/utils"
 
@@ -82,7 +82,7 @@ export default function CalendarPage() {
     loading,
     error,
     reload,
-  } = useTenderFlowData()
+  } = useOpenTendersData()
   const [createOpen, setCreateOpen] = useState(false)
   const [selectedTender, setSelectedTender] = useState<Tender | null>(null)
   const [editTender, setEditTender] = useState<Tender | null>(null)

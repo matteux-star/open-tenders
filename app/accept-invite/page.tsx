@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { AppShell } from "@/components/app-shell"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
-import { acceptInvitation } from "@/lib/tender-flow-data"
+import { acceptInvitation } from "@/lib/open-tenders-data"
 
 function AcceptInviteContent() {
   const router = useRouter()

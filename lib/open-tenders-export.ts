@@ -10,7 +10,7 @@ import {
   type Profile,
   type Tender,
   type TenderDeadline,
-} from "@/lib/tender-flow-data"
+} from "@/lib/open-tenders-data"
 
 function csvCell(value: string | number | null | undefined) {
   const stringValue = String(value ?? "")
@@ -74,7 +74,7 @@ export function downloadTenderReportCsv({
   const date = new Date().toISOString().slice(0, 10)
 
   link.href = url
-  link.download = `tender-flow-report-${date}.csv`
+  link.download = `open-tenders-report-${date}.csv`
   document.body.append(link)
   link.click()
   link.remove()

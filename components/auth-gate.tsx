@@ -19,8 +19,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { createBrowserSupabaseClient } from "@/lib/supabase/client"
 import {
-  useTenderFlowData,
-} from "@/lib/tender-flow-data"
+  useOpenTendersData,
+} from "@/lib/open-tenders-data"
 
 type AuthMode = "sign-in" | "sign-up" | "reset"
 
@@ -368,15 +368,15 @@ export function AuthPage({
 
 export function AuthGate({ children }: { children: ReactNode }) {
   const { supabase, session, loading } = useSupabaseSession()
-  const tenderFlowData = useTenderFlowData()
+  const openTendersData = useOpenTendersData()
   const router = useRouter()
 
   useEffect(() => {
     if (
       !loading &&
       session &&
-      !tenderFlowData.loading &&
-      tenderFlowData.accessState === "no_membership"
+      !openTendersData.loading &&
+      openTendersData.accessState === "no_membership"
     ) {
       router.replace("/onboarding")
     }
@@ -384,11 +384,11 @@ export function AuthGate({ children }: { children: ReactNode }) {
     loading,
     router,
     session,
-    tenderFlowData.accessState,
-    tenderFlowData.loading,
+    openTendersData.accessState,
+    openTendersData.loading,
   ])
 
-  if (loading || (session && tenderFlowData.loading)) {
+  if (loading || (session && openTendersData.loading)) {
     return <WorkspaceLoading />
   }
 
@@ -396,15 +396,15 @@ export function AuthGate({ children }: { children: ReactNode }) {
     return <AuthForm />
   }
 
-  if (tenderFlowData.accessState === "no_membership") {
+  if (openTendersData.accessState === "no_membership") {
     return <WorkspaceLoading />
   }
 
-  if (tenderFlowData.accessState === "error") {
+  if (openTendersData.accessState === "error") {
     return (
       <AccessError
         message={
-          tenderFlowData.error ?? "OpenTenders could not load this workspace."
+          openTendersData.error ?? "OpenTenders could not load this workspace."
         }
         onSignOut={() => void supabase.auth.signOut()}
       />

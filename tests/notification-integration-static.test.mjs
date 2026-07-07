@@ -14,7 +14,7 @@ test("Telegram notification schema, env, and functions are wired", () => {
   const env = read(".env.example")
   const config = read("supabase/config.toml")
   const types = read("lib/supabase/database.types.ts")
-  const data = read("lib/tender-flow-data.ts")
+  const data = read("lib/open-tenders-data.ts")
 
   assert.match(env, /TELEGRAM_BOT_TOKEN=/)
   assert.match(env, /TELEGRAM_BOT_USERNAME=/)

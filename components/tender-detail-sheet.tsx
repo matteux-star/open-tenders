@@ -34,7 +34,7 @@ import {
   formatDateTime,
   labelFromValue,
   primaryDeadline,
-} from "@/lib/tender-flow-data"
+} from "@/lib/open-tenders-data"
 import {
   tenderDeadlineClass,
   tenderStatusBadgeClass,

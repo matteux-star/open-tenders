@@ -39,9 +39,9 @@ import {
   labelFromValue,
   profileName,
   updateTender,
-  useTenderFlowData,
+  useOpenTendersData,
   primaryDeadline,
-} from "@/lib/tender-flow-data"
+} from "@/lib/open-tenders-data"
 import { buildTenderStageUpdate } from "@/lib/tender-lifecycle"
 import { tenderStatusBadgeClass } from "@/lib/status-styles"
 import { cn } from "@/lib/utils"
@@ -71,7 +71,7 @@ export default function KanbanPage() {
     loading,
     error,
     reload,
-  } = useTenderFlowData()
+  } = useOpenTendersData()
 
   const [createOpen, setCreateOpen] = useState(false)
   const [selectedTender, setSelectedTender] = useState<Tender | null>(null)

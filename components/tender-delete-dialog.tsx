@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import type { Tender } from "@/lib/tender-flow-data"
+import type { Tender } from "@/lib/open-tenders-data"
 
 export function TenderDeleteDialog({
   open,

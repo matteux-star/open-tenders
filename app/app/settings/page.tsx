@@ -82,9 +82,9 @@ import {
   updateOrganisationNotificationSettings,
   updateOrganisationSettings,
   updateProfileName,
-  useTenderFlowData,
+  useOpenTendersData,
   type OrganisationMember,
-} from "@/lib/tender-flow-data"
+} from "@/lib/open-tenders-data"
 import {
   currencies,
   notificationTypes,
@@ -379,7 +379,7 @@ export default function SettingsPage() {
     loading,
     error,
     reload,
-  } = useTenderFlowData()
+  } = useOpenTendersData()
 
   const currentRole = currentMember?.role ?? "viewer"
   const hasFullSettingsAccess = currentRole === "admin"
@@ -1747,7 +1747,7 @@ export default function SettingsPage() {
                 </CardAction>
                 <CardTitle>Telegram</CardTitle>
                 <CardDescription>
-                  Link your Telegram account and choose whether Tender Flow can
+                  Link your Telegram account and choose whether OpenTenders can
                   send deadline reminders there.
                 </CardDescription>
               </CardHeader>
@@ -1767,7 +1767,7 @@ export default function SettingsPage() {
                   </p>
                   <p className="text-sm text-muted-foreground">
                     Telegram reminders are delivered as direct messages from the
-                    Tender Flow bot.
+                    OpenTenders bot.
                   </p>
                 </div>
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center">

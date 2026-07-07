@@ -1,4 +1,4 @@
-project_id = "tender-flow"
+project_id = "open-tenders"
 
 [api]
 enabled = true
@@ -31,9 +31,6 @@ enable_confirmations = false
 
 [analytics]
 enabled = false
-
-[functions.stripe-webhook]
-verify_jwt = false
 
 [functions.send-deadline-reminders]
 verify_jwt = false

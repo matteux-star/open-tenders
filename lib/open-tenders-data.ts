@@ -45,14 +45,14 @@ export type EdgeFunctionResponse<T> = {
   error: { message: string } | null
 }
 
-export type TenderFlowAccessState =
+export type OpenTendersAccessState =
   | "loading"
   | "signed_out"
   | "ready"
   | "no_membership"
   | "error"
 
-export type TenderFlowData = {
+export type OpenTendersData = {
   organisation: Organisation | null
   currentMember: OrganisationMember | null
   profiles: Profile[]
@@ -68,7 +68,7 @@ export type TenderFlowData = {
   contracts: Contract[]
 }
 
-const emptyData: TenderFlowData = {
+const emptyData: OpenTendersData = {
   organisation: null,
   currentMember: null,
   profiles: [],
@@ -84,7 +84,7 @@ const emptyData: TenderFlowData = {
   contracts: [],
 }
 
-const tenderUpdatedEventName = "tender-flow:tender-updated"
+const tenderUpdatedEventName = "open-tenders:tender-updated"
 
 function dispatchTenderUpdated(tender: Tender) {
   if (typeof window === "undefined") return
@@ -94,12 +94,12 @@ function dispatchTenderUpdated(tender: Tender) {
   )
 }
 
-export function useTenderFlowData() {
+export function useOpenTendersData() {
   const supabase = createBrowserSupabaseClient()
-  const [data, setData] = useState<TenderFlowData>(emptyData)
+  const [data, setData] = useState<OpenTendersData>(emptyData)
   const [loading, setLoading] = useState(true)
   const [accessState, setAccessState] =
-    useState<TenderFlowAccessState>("loading")
+    useState<OpenTendersAccessState>("loading")
   const [error, setError] = useState<string | null>(null)
   const [reloadKey, setReloadKey] = useState(0)
 
@@ -594,7 +594,7 @@ export async function createInvitation(input: OrganisationInvitationInsert) {
   return data
 }
 
-async function invokeTenderFlowFunction<T>(
+async function invokeEdgeFunction<T>(
   functionName: string,
   body: Record<string, unknown>
 ) {
@@ -616,14 +616,14 @@ export async function inviteMember(input: {
   role: OrganisationMember["role"]
   message?: string | null
 }) {
-  return invokeTenderFlowFunction<OrganisationInvitation>(
+  return invokeEdgeFunction<OrganisationInvitation>(
     "invite-member",
     input
   )
 }
 
 export async function acceptInvitation(tokenOrInvitationId: string) {
-  return invokeTenderFlowFunction<{
+  return invokeEdgeFunction<{
     organisationId: string
     membershipId: string
   }>("accept-invite", { tokenOrInvitationId })
@@ -743,7 +743,7 @@ export async function updateMemberNotificationPreference(
 }
 
 export async function createTelegramLink() {
-  return invokeTenderFlowFunction<{ url: string; expiresAt: string }>(
+  return invokeEdgeFunction<{ url: string; expiresAt: string }>(
     "create-telegram-link",
     {}
   )
