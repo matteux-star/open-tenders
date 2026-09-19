@@ -1,60 +1,73 @@
-# OpenTenders
+# Open Tenders
 
 Open-source tender tracking and management for bid teams.
 
-Replace spreadsheet-led tender tracking with one workspace for bids, deadlines, owners, and risk. Built for UK SMEs that bid on public and private sector contracts.
+Open Tenders brings opportunities, deadlines, owners and risks into one shared workspace for UK SMEs bidding on public- and private-sector contracts.
 
-## Features
+**[View the live demo](https://open-tenders.vercel.app)**
 
-- **Tender dashboard** — see all open deadlines, owned bids, and flagged risks at a glance
-- **Kanban board** — drag bids through stages (identify → prepare → submit → won/lost)
-- **Calendar view** — visual deadline management across the team
-- **Insights** — win/loss tracking, pipeline value, and team performance
-- **Multi-user orgs** — invite colleagues, assign owners, share a tender workspace
-- **Sites & Staffing Map** — plot service locations and standard headcounts to inform bid pricing
-- **Telegram reminders** — daily deadline push notifications (optional)
+## The problem
 
-## Stack
+Small bid teams often coordinate high-value submissions through spreadsheets, calendars, inboxes and individual memory. That makes it difficult to see ownership, deadlines, dependencies and learning from previous outcomes.
 
-- **Frontend:** Next.js (App Router), React, TypeScript, Tailwind CSS, shadcn/ui
-- **Backend:** Supabase (Postgres, Auth, Edge Functions)
-- **Auth:** Supabase Auth (magic link, OAuth)
-- **Maps:** Leaflet + OpenStreetMap (free, no API key)
-- **Geocoding:** Postcodes.io (UK postcodes, free)
+Open Tenders was designed around the decisions a bid team needs to make: whether to pursue an opportunity, who owns the next action, what is at risk and what the team has learned.
 
-## Getting Started
+## Product capabilities
+
+- **Tender dashboard:** open deadlines, ownership and risk at a glance
+- **Kanban workflow:** identify → prepare → submit → won/lost
+- **Calendar:** shared deadline and milestone planning
+- **Insights:** pipeline value, win/loss history and team activity
+- **Multi-user organisations:** invitations, owners and permission levels
+- **Sites and staffing map:** operational context for qualification and mobilisation
+- **Telegram reminders:** optional daily deadline notifications
+
+## Product history
+
+Open Tenders is the open-source edition of **TenderFlow**, an original commercial product designed and built by Matthew Timms.
+
+TenderFlow began as an attempt to commercialise a recurring problem observed in bid teams: fragmented qualification, ownership and deadline management. After reviewing a crowded market and concluding that the proposition needed stronger differentiation, Matthew stopped pursuing monetisation and converted the product into this open-source edition.
+
+The pivot is part of the case study. A genuine user problem does not automatically create a defensible commercial product, and stopping or repositioning can be the responsible product decision.
+
+Read the full product case study in `docs/product-case-study.md`.
+
+## Technology
+
+- Next.js App Router, React and TypeScript
+- Tailwind CSS and shadcn/ui
+- Supabase Postgres, Auth and Edge Functions
+- Leaflet and OpenStreetMap
+- Postcodes.io geocoding
+
+## Local development
 
 ```bash
-# Clone
-git clone https://github.com/your-org/open-tenders
+git clone https://github.com/matteux-star/open-tenders.git
 cd open-tenders
-
-# Install
 npm install
-
-# Copy env template
 cp .env.example .env.local
-# Edit .env.local with your Supabase project details
-
-# Run migrations
 npx supabase start
-
-# Dev server
 npm run dev
 ```
 
-## Deployment
+See `supabase/README.md` for database setup, Edge Function secrets and seeded demo users.
 
-OpenTenders is designed to be self-hosted. Deploy via:
+## Current status
 
-- **Cloudflare Pages** — `npm run pages:build` then deploy with Wrangler
-- **Docker** — `docker compose up -d` (see `Dockerfile`)
-- **Vercel** — connect your Supabase project and deploy
+This is a portfolio and open-source project rather than an actively commercialised service. Before production use, review the authentication, data-protection, email and reminder configuration for your organisation.
 
-## Origin
+## Feedback
 
-OpenTenders is an open-source fork of [TenderFlow](https://tenderflow.com), stripped of billing, marketing, and rebranded as a community portfolio project. All core functionality — multi-user orgs, tender CRUD, kanban, calendar, insights, reminders — is preserved.
+If you work in bids or proposals, useful feedback includes:
 
-## License
+- which information you still need outside the product;
+- where qualification or ownership remains unclear;
+- whether the workflow matches the stages your team actually uses; and
+- whether operational mapping would change a bid/no-bid discussion.
 
-MIT
+Please use GitHub Issues for reproducible product or technical feedback.
+
+## Licence
+
+The repository currently contains an MIT licence reference in its project history, but no `LICENSE` file was present in the audited working copy. Add the intended licence file before describing the repository as formally MIT-licensed.
